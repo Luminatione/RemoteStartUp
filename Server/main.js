@@ -1,16 +1,23 @@
 const express = require('express');
+const ws = require('ws');
 const app = express();
 const port = 3000;
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-    }
-);
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+
+let server = app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
 }
 );
-//add endpoint with password as parameter using express
-app.get('/start-up:password', (req, res) => {
-    res.send('Hello World!');
-    }
-);
+
+const wss = new ws.WebSocketServer({server: server});
+console.log('WebSocket server started');
+
+wss.on('connection', function connection(ws) {
+    console.log('ws connection');
+  ws.on('error', console.error);
+
+  ws.on('message', function message(data) {
+    console.log('received: %s', data);
+  });
+
+  ws.send('something');
+});
