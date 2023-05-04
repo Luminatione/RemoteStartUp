@@ -5,5 +5,5 @@
 
 #define HANDSHAKE_FAILED "Handshake failed"
 #define HANDSHAKE_SUCCEED "Handshake succeed"
-#define SERVER_CONNECTION_FAILED "Connected to server"
-#define SERVER_CONNECTION_SUCCEED "Failed to connect to server"
+#define SERVER_CONNECTION_FAILED "Failed to connect to server"
+#define SERVER_CONNECTION_SUCCEED "Connected to server"
