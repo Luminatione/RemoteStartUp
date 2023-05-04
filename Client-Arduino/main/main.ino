@@ -1,10 +1,11 @@
 #include <WiFiNINA.h>
 #include "credential.h"
+#include <simpleRPC.h>
 
-void connect()
-{
+void connect() {
   Serial.begin(9600);
-  while (!Serial);
+  while (!Serial)
+    ;
 
   // attempt to connect to WiFi network
   if (WiFi.begin(SSID, PASSWORD) == WL_CONNECTED) {
@@ -14,10 +15,15 @@ void connect()
   }
 }
 
+void test() {
+  Serial.println("Called");
+}
+
 void setup() {
   connect();
+  Serial.begin(9600);
 }
 
 void loop() {
-  // your code here
+  interface(Serial, test, "test method");
 }
