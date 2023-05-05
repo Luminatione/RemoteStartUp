@@ -3,3 +3,5 @@
 #define WEB_SOCKET_PROTOCOL "chat"
 
 #define BOARD_REGISTER_MESSAGE "register"
+#define BOARD_NOTIFY_MESSAGE "notify"
+#define BOARD_RESTART_MESSAGE "restart"

@@ -9,7 +9,9 @@
 WiFiClient client;
 WebSocketClient webSocketClient;
 
-void errorReset()
+int timeElapsed = 0;
+
+void restart()
 {
     Serial.println("Awaitng restart...");
     delay(ON_ERROR_DELAY);
@@ -20,10 +22,11 @@ void onError(String message)
 {
   Serial.println(message);
   showError();
-  errorReset();
+  restart();
 }
 
-void connectWiFi() {
+void connectWiFi()
+{
   Serial.begin(9600);
   while (!Serial);
   if (WiFi.begin(SSID, PASSWORD) == WL_CONNECTED) {
@@ -69,19 +72,47 @@ void configReset()
 }
 
 void setup() {
+  pinMode(CONTROL_PIN, OUTPUT);
   configReset();
   enableErrors();
   connectWiFi();
   connectWS();
 }
 
-void loop() {
-  String data;
-   webSocketClient.getData(data);
+void onNotify()
+{
+    digitalWrite(CONTROL_PIN, HIGH);
+    delay(CONTROL_PIN_HIGH_TIME);
+    digitalWrite(CONTROL_PIN, LOW);
+}
 
-  if (data.length() > 0) 
+void onUnknowData(String data)
+{
+  Serial.print(UNKNOW_DATA_MESSAGE);
+  Serial.println(data);
+  
+}
+
+void proccessData(String data)
+{
+  if(data == BOARD_NOTIFY_MESSAGE)
   {
-    Serial.print("Received data: ");
-    Serial.println(data);
+    return onNotify();
   }
+  if(data == BOARD_RESTART_MESSAGE)
+  {
+    return restart();
+  }
+  onUnknowData(data);
+}
+
+void loop() {
+  if(millis() > RESET_TIME)
+  {
+    restart();
+  }
+
+  String data;
+  webSocketClient.getData(data);
+  proccessData(data);
 }
