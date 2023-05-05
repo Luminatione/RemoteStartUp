@@ -71,7 +71,8 @@ void configReset()
   digitalWrite(RESET_PIN, HIGH);
 }
 
-void setup() {
+void setup() 
+{
   pinMode(CONTROL_PIN, OUTPUT);
   configReset();
   enableErrors();
@@ -95,6 +96,10 @@ void onUnknowData(String data)
 
 void proccessData(String data)
 {
+  if(data.length() == 0)
+  {
+    return;
+  }
   if(data == BOARD_NOTIFY_MESSAGE)
   {
     return onNotify();
@@ -111,7 +116,6 @@ void loop() {
   {
     restart();
   }
-
   String data;
   webSocketClient.getData(data);
   proccessData(data);

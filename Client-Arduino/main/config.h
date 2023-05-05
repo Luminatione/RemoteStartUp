@@ -13,4 +13,4 @@
 
 #define UNKNOW_DATA_MESSAGE "Unknown data recived: "
 
-#define RESET_TIME 12 * 3600 * 1000
+#define RESET_TIME 18 * 3600 * 1000
